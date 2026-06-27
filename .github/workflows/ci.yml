@@ -14,14 +14,14 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '20'
-          cache: npn
+          cache: npm
           cache-dependency-path: frontend/package-lock.json
-      - name: install npn packages
-        run: npn ci
+      - name: install npm packages
+        run: npm ci
       - name: run linter
-        run: npn run lint
+        run: npm run lint
       - name: run tests
-        run: npn run test
+        run: npm run test
        
         
      # - Test
