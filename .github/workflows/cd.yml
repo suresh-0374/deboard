@@ -21,4 +21,4 @@ jobs:
             - name: deopoy container with docker commpose
               run: |
                docker compose pull
-               docker compose up -d
+               docker compose up -d --force-recreate
