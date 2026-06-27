@@ -1,4 +1,4 @@
-# #SGoal To deploy the built images from the ci sucedded
+# SGoal To deploy the built images from the ci sucedded
 name: CD
 on:
     workflow_run:
