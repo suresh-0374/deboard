@@ -1,0 +1,24 @@
+# Goal To deploy the built images from the ci sucedded
+name: CD
+on:
+    workflow_run:
+        workflows: ['CI']
+        types: [completed]
+        branches: [main]
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+            - name: code checkout
+              uses: actions/checkout@v7
+            - name: copy env-example to env
+              run: cp .env.example .env
+            - name: docker login
+              uses: docker/login-action@v4
+              with:
+                username: ${{ secrets.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
+            - name: deopoy container with docker commpose
+              run: |
+               docker compose pull
+               docker compose up -d
