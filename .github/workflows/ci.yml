@@ -1,4 +1,4 @@
-# GOAL I have to build, test the code for frontend and backend ci and cd
+# GOAL I have to build, test the code for frontend and backend 
 # then push images to dockerhub
 name: CI
 on:
