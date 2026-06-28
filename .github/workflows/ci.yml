@@ -3,6 +3,9 @@
 name: CI
 on:
   push:
+    paths:
+      - '**'
+      -  '!./github/workflows/**'
     branches: [main]
 jobs:
    frontend:

@@ -1,0 +1,32 @@
+# this is for multiple go version run in a single no need to rpease with matrix
+name: matrix
+on:
+    push:
+        branches: [main]
+jobs:
+    code-format:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                go: ['1.22','1.23','1.24']
+
+        steps:
+         - name: checkout code
+           uses: actions/checkout@v7
+         - name: linter setup go
+           uses: actions/setup-go@v6
+           with:
+            go-version: ${{ matrix.go }}
+            go-version-file: 'go.mod'
+            check-latest: false
+            cache-dependency-path: backend/go.sum
+         - name: run go for fmt
+           run: go fmt
+           working-directory: backend
+         - name: rub for go vet
+           run: go vet
+           working-directory: backend
+         - name: run tests
+           run: go test
+           working-directory: backend
