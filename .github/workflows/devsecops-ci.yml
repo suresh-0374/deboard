@@ -1,0 +1,8 @@
+# to run end to end devscops pipleline
+name: DevSecOps
+on:
+    push:
+        branches: [dev]
+jobs:
+    code-quality:
+        uses: ./.github/workflows/code-quality.yml
