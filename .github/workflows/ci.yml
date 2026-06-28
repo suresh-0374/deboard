@@ -2,10 +2,7 @@
 # then push images to dockerhub
 name: CI
 on:
-  push:
-    paths-ignore:
-      -  '.github/workflows/**'
-    branches: [main]
+  workflow_call:
 jobs:
    frontend:
       runs-on: ubuntu-latest
