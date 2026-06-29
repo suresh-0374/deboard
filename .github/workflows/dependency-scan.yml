@@ -20,7 +20,7 @@ jobs:
               working-directory: backend
             - name: upload report to artifacts
               if: always()
-              uses: actions/upload-artifacts@v4
+              uses: actions/upload-artifact@v4
               with:
                 name: dependecny-scan-report
                 path: reports/govulncheck-report.txt
