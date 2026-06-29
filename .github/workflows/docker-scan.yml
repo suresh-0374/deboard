@@ -18,4 +18,4 @@ jobs:
                 dockerfile: ${{ matrix.folders }}/Dockerfile
             - name: docker build ${{ matrix.folders }}
               run: docker build -t ${{ secrets.DOCKER_USERNAME }}/devboard-${{ matrix.folders }}:latest .
-              working_directory: ${{ matrix.folders }}
+              working-directory: ${{ matrix.folders }}
