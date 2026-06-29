@@ -1,4 +1,4 @@
-# docker files and socker images are security tested
+# docker files and socker images are security tested 
 name: docker scan
 on:
     workflow_call:
@@ -11,7 +11,7 @@ jobs:
                 folders: ['backend','frontend']
         steps:
             - name: checkout
-              uses: actions/checkout@v7
+              uses: actions/checkout@v4
             - name: dockerfile lint
               uses: hadolint/hadolint-action@v3.1.0
               with:
