@@ -1,1 +1,18 @@
 # docker files and socker images are security tested
+name: docker scan
+on:
+    workflow_call:
+jobs:
+    dockerfile-lint-and-scan:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                folders: ['backend','frontend']
+        steps:
+            - name: checkout
+              uses: actions/checkout@v7
+            - name: dockerfile lint
+              uses: hadolint/hadolint-action@v3.1.0
+              with:
+                dockerfile: ${{ matrix.folders }}/Dockerfile
