@@ -1,27 +1,14 @@
-# Stage 1 — build
-FROM golang:1.22-alpine AS builder
-
+# Stage 1 — build the app with updated Go runtime
+FROM golang:1.26-alpine AS build
 WORKDIR /app
-
-# Download deps first for better layer caching.
 COPY go.mod go.sum ./
 RUN go mod download
-
-# Build the binary.
 COPY . .
-RUN CGO_ENABLED=0 go build -o devboard-backend .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o backend .
 
-# Stage 2 — runtime (minimal image)
-FROM alpine:3.20
-
+# Stage 2 — runtime image using distroless (no shell, minimal attack surface)
+FROM gcr.io/distroless/base-debian12:nonroot
 WORKDIR /app
-
-# Copy binary from builder
-COPY --from=builder /app/devboard-backend .
-
-# Create non-root user
-RUN adduser -D -u 10001 app && chown -R app:app /app
-USER app
-
+COPY --from=build --chown=nonroot:nonroot /app/backend .
 EXPOSE 8080
-ENTRYPOINT ["./devboard-backend"]
+CMD ["/app/backend"]
