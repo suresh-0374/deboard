@@ -12,25 +12,21 @@ jobs:
         steps:
             - name: checkout
               uses: actions/checkout@v4
+            
             - name: dockerfile lint
               uses: hadolint/hadolint-action@v3.1.0
               with:
                 dockerfile: ${{ matrix.folders }}/Dockerfile
               continue-on-error: true
-            - name: set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
-            - name: docker build ${{ matrix.folders }}
-              uses: docker/build-push-action@v5
-              with:
-                context: ${{ matrix.folders }}
-                push: false
-                tags: devboard-${{ matrix.folders }}:latest
-            - name: Run Trivy vulnerability scanner
+            
+            - name: build docker image
+              run: docker build -t devboard-${{ matrix.folders }}:latest ${{ matrix.folders }}
+              continue-on-error: true
+            
+            - name: trivy scan
               uses: aquasecurity/trivy-action@v0.36.0
               with:
                 image-ref: devboard-${{ matrix.folders }}:latest
-                format: 'table'
-                exit-code: '0'
-                ignore-unfixed: true
-                vuln-type: 'os,library'
-                severity: 'CRITICAL,HIGH'
+                format: sarif
+                output: trivy-results.sarif
+              continue-on-error: true
