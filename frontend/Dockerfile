@@ -13,8 +13,8 @@ WORKDIR /app
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 
-# Install vite only (no global cache)
-RUN npm install -g vite@5
+# Install vite only
+RUN npm install -g vite@5 && npm cache clean --force
 
 # Copy built files from build stage
 COPY --from=build --chown=nodejs:nodejs /app/dist ./dist
